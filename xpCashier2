@@ -1,0 +1,101 @@
+import java.util.Scanner;
+
+public class xpCashier2 {
+    static Scanner input = new Scanner(System.in);
+
+    // Daftar barang
+    static String[][] barang = {
+            { "1", "Kipas", "130000", "Elektronik" },
+            { "2", "TV", "900000", "Elektronik" },
+            { "3", "Lampu", "15000", "Elektronik" },
+            { "4", "TWS", "300000", "Elektronik" },
+            { "5", "Vape", "200000", "Elektronik"},
+            { "6", "Pisang", "40000", "Buah" },
+            { "7", "Jambu", "75000", "Buah" },
+            { "8", "Apel", "30000", "Buah"},
+            { "9", "Jeruk", "30000", "Buah" },
+            { "10", "Mangga", "50000", "Buah" }
+    };
+
+    public static void main(String[] args) {
+        double totalDibayar = 0;
+
+        while (true) {
+            // Tampilkan daftar barang
+            tampilkanDaftarBarang();
+
+            // Input kode barang
+            System.out.print("\nMasukkan Kode Barang!\nKetik 0 Untuk Keluar/Bayar)");
+            int kodeBarang = input.nextInt();
+
+            if (kodeBarang == 0) {
+                break; // Keluar dari perulangan
+            }
+
+            if (kodeBarang - 1 < 0 || kodeBarang - 1 >= barang.length) {
+                System.out.println("Barang tidak ditemukan!");
+                continue;
+            }
+
+            // Input kuantitas barang
+            int kuantitas = masukkanKuantitas();
+            if (kuantitas <= 0) {
+                System.out.println("Kuantitas tidak valid!");
+                continue;
+            }
+
+            // Hitung total harga untuk barang yang dipilih
+            double hargaBarang = hitungTotalBarang(kodeBarang - 1, kuantitas);
+            totalDibayar += hargaBarang;
+
+            // Informasi barang yang dipilih
+            System.out.printf("Anda memilih %d x %s dengan total harga: %.2f\n", 
+                              kuantitas, barang[kodeBarang - 1][1], hargaBarang);
+        }
+
+        // Tampilkan total pembayaran dan proses pembayaran
+        prosesPembayaran(totalDibayar);
+    }
+
+    // Method untuk menampilkan daftar barang
+    public static void tampilkanDaftarBarang() {
+        System.out.println("\n\tSELAMAT DATANG DI PROGRAM KASIR XP!\n");
+        System.out.println("No. \tNama \t\tHarga \t\tKategori");
+        for (String[] brg : barang) {
+            System.out.printf("%s. \t%s \t\t%s \t\t%s\n", brg[0], brg[1], brg[2], brg[3]);
+        }
+    }
+
+    // Method untuk meminta kuantitas barang
+    public static int masukkanKuantitas() {
+        System.out.print("Kuantitas Barang : ");
+        return input.nextInt();
+    }
+
+    // Method untuk menghitung total harga per barang
+    public static double hitungTotalBarang(int indeksBarang, int kuantitas) {
+        return Integer.parseInt(barang[indeksBarang][2]) * kuantitas;
+    }
+
+    // Method untuk memproses pembayaran
+    public static void prosesPembayaran(double total) {
+        System.out.println("\nTotal Pembayaran : " + total);
+        double nominalPembayaran;
+
+        while (true) {
+            System.out.print("Nominal Pembayaran : ");
+            nominalPembayaran = input.nextDouble();
+
+            if (nominalPembayaran >= total) {
+                double kembalian = nominalPembayaran - total;
+                System.out.printf("\n\tPEMBAYARAN BERHASIL!\n \nKembalian Anda : %.2f\n", kembalian);
+                break;
+            }else {
+                double kekurangan = total - nominalPembayaran;
+                System.out.printf("Pembayaran anda kurang sebesar : %.2f. \nSilakan masukkan nominal tambahan.\n", kekurangan);
+            }
+        }
+
+        System.out.println("\n\tTERIMAKASIH TELAH MENGGUNAKAN PROGRAM INI!\n");
+    }
+}   
