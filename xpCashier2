@@ -25,7 +25,7 @@ public class xpCashier2 {
             tampilkanDaftarBarang();
 
             // Input kode barang
-            System.out.print("\nMasukkan Kode Barang!\nKetik 0 Untuk Keluar/Bayar)");
+            System.out.print("\nMasukkan Kode Barang!\nKetik 0 Untuk Keluar/Bayar");
             int kodeBarang = input.nextInt();
 
             if (kodeBarang == 0) {
